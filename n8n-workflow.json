@@ -1,0 +1,403 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "edit-text",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        560,
+        240
+      ],
+      "id": "813da3d2-ba8c-43e2-aa57-d0b2f4c713ae",
+      "name": "Webhook",
+      "webhookId": "ea257a33-a0ff-4649-a049-12e4c2af669b"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2020,
+        240
+      ],
+      "id": "c6009cb3-6c5a-45bd-b2f1-286c9a3be584",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.prompt }}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1620,
+        140
+      ],
+      "id": "c60e137a-b11d-47c8-a788-2218e0ce4b09",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        340
+      ],
+      "id": "9e89af0a-c739-4de1-b13b-da0b7b515656",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gxc1tnR6AiesBgo9",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.policy }}",
+                    "rightValue": "Gaza TV",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "07e1d41e-f35c-42c9-9768-0b28f840ef52"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Gaza Tv policy"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "07a03369-578f-40d6-850b-dccce8b03d75",
+                    "leftValue": "={{ $json.body.policy }}",
+                    "rightValue": "Najah Media",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Najah Media policy"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0aa72ff8-47cf-40af-808e-434ede1e8802",
+                    "leftValue": "={{ $json.body.policy }}",
+                    "rightValue": "Najah News",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Najah News policy"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1000,
+        140
+      ],
+      "id": "7bf0ba05-0571-4e20-b3fb-8ca66ba755ed",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31e2d2cf-568c-4079-bccf-d3d6a43a4763",
+              "name": "prompt",
+              "value": "=أعد صياغة النص التالي بأسلوب إذاعة وتلفزيون غزة، مع التركيز على الجانب الوطني والإنساني:({{ $json.body.text }})\n\nاستخدم مصطلحات وطنية إلزامية مثل: الاحتلال الإسرائيلي، الأسرى، الشهداء، المقاومة الفلسطينية.\nقم بتقسيمه إلى فقرات واضحة تتضمن العناوين التالية بالترتيب:\nالتصنيف – العنوان – المقدمة – التفاصيل – الخاتمة – الكلمات المفتاحية.\n\nاحرص أن يكون كل قسم مميزًا وواضحًا، مع سطر فارغ بين الفقرات.  \n\n\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1320,
+        -40
+      ],
+      "id": "fe7ffe95-4c5e-4473-aed6-785c48f8c313",
+      "name": "Gaza tv prompt"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17499d0c-50ea-4174-9a81-ed1a402a214b",
+              "name": "prompt",
+              "value": "=أعد صياغة النص التالي بأسلوب مركز الإعلام في جامعة النجاح الوطنية، باللغة العربية الفصحى الدقيقة والواضحة: ({{ $json.body.text }})  التزم بالحياد والموضوعية، ركز على التحليل والسياق، تجنب الصفات الانفعالية أو التقييمية.  \nقم بتقسيمه إلى فقرات واضحة تتضمن العناوين التالية بالترتيب:\nالتصنيف – العنوان – المقدمة – التفاصيل – الخاتمة – الكلمات المفتاحية.\n\nاحرص أن يكون كل قسم مميزًا وواضحًا، مع سطر فارغ بين الفقرات.  \n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1320,
+        140
+      ],
+      "id": "33e06b3a-4c6e-4fcc-a0f1-d7156fb2af28",
+      "name": "Najah Media prompt"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2603b118-1727-4251-ad97-8f7921ba944e",
+              "name": "prompt",
+              "value": "=أعد صياغة النص التالي بأسلوب صحفي مهني مباشر وواضح من موقع النجاح الإخباري: ({{ $json.body.text }})  رتب الفقرات زمنيًا، استخدم الفعل المعلوم، التزم بالمصطلحات الوطنية: الاحتلال الإسرائيلي، الشهداء، الأسرى، القدس المحتلة. \nقم بتقسيمه إلى فقرات واضحة تتضمن العناوين التالية بالترتيب:\nالتصنيف – العنوان – المقدمة – التفاصيل – الخاتمة – الكلمات المفتاحية.\n\nاحرص أن يكون كل قسم مميزًا وواضحًا، مع سطر فارغ بين الفقرات.  \n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1320,
+        340
+      ],
+      "id": "014ec0a7-6a15-48bc-ad65-a2b3593e8d2a",
+      "name": "Najah News prompt"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b20e75d5-7b10-4321-b65a-9c5f5282dcef",
+              "leftValue": "={{ $json.body.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        780,
+        240
+      ],
+      "id": "e42ee6e5-4cda-4a22-9eeb-db043b975ab0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "⚠️ لم يتم إدخال نص. الرجاء إدخال نص قبل الإرسال.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        960,
+        360
+      ],
+      "id": "3a389448-c413-48c2-8ce1-02b44339b746",
+      "name": "Respond to Webhook1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Gaza tv prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Najah Media prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Najah News prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gaza tv prompt": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Najah Media prompt": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Najah News prompt": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "52326ad9-f03d-4945-82f6-ed442ce50486",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7ceef62e13a8eff2bef9b52f3b5aa9e2eccada3fa24ee303bf4662554419291e"
+  },
+  "id": "QBuA56gADrcobLJV",
+  "tags": []
+}

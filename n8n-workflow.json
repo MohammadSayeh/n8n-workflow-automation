@@ -12,7 +12,7 @@
       "typeVersion": 2,
       "position": [
         560,
-        240
+        256
       ],
       "id": "813da3d2-ba8c-43e2-aa57-d0b2f4c713ae",
       "name": "Webhook",
@@ -26,8 +26,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        2020,
-        240
+        1808,
+        64
       ],
       "id": "c6009cb3-6c5a-45bd-b2f1-286c9a3be584",
       "name": "Respond to Webhook"
@@ -41,8 +41,8 @@
       "type": "@n8n/n8n-nodes-langchain.chainLlm",
       "typeVersion": 1.7,
       "position": [
-        1620,
-        140
+        1456,
+        64
       ],
       "id": "c60e137a-b11d-47c8-a788-2218e0ce4b09",
       "name": "Basic LLM Chain"
@@ -55,8 +55,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1640,
-        340
+        1536,
+        288
       ],
       "id": "9e89af0a-c739-4de1-b13b-da0b7b515656",
       "name": "Google Gemini Chat Model",
@@ -152,8 +152,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.2,
       "position": [
-        1000,
-        140
+        1008,
+        128
       ],
       "id": "7bf0ba05-0571-4e20-b3fb-8ca66ba755ed",
       "name": "Switch"
@@ -175,8 +175,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1320,
-        -40
+        1232,
+        -48
       ],
       "id": "fe7ffe95-4c5e-4473-aed6-785c48f8c313",
       "name": "Gaza tv prompt"
@@ -198,8 +198,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1320,
-        140
+        1232,
+        144
       ],
       "id": "33e06b3a-4c6e-4fcc-a0f1-d7156fb2af28",
       "name": "Najah Media prompt"
@@ -221,8 +221,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1320,
-        340
+        1232,
+        336
       ],
       "id": "014ec0a7-6a15-48bc-ad65-a2b3593e8d2a",
       "name": "Najah News prompt"
@@ -255,8 +255,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        780,
-        240
+        784,
+        256
       ],
       "id": "e42ee6e5-4cda-4a22-9eeb-db043b975ab0",
       "name": "If"
@@ -270,11 +270,357 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        960,
-        360
+        1008,
+        352
       ],
       "id": "3a389448-c413-48c2-8ce1-02b44339b746",
       "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "english-news",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        560,
+        864
+      ],
+      "id": "f380753b-c664-42be-aea5-bfdd6b754f87",
+      "name": "Webhook - English News",
+      "webhookId": "33d6fa0f-6da0-4ce2-8734-f83ab814b3cc"
+    },
+    {
+      "parameters": {
+        "url": "https://feeds.washingtonpost.com/rss/world",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        784,
+        768
+      ],
+      "id": "545622bd-7a77-4ca8-9347-7166adfb40f5",
+      "name": "HTTP Request – Washington Post"
+    },
+    {
+      "parameters": {
+        "url": "https://www.theguardian.com/world/middleeast/rss",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        784,
+        960
+      ],
+      "id": "959679ef-0c31-44f7-9f27-7a6137c37cf9",
+      "name": "HTTP Request – The Guardian"
+    },
+    {
+      "parameters": {
+        "url": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        784,
+        1152
+      ],
+      "id": "dbfe8dde-e906-4702-9799-4045e513a797",
+      "name": "HTTP Request – BBC"
+    },
+    {
+      "parameters": {
+        "url": "https://www.aljazeera.com/xml/rss/all.xml",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        784,
+        576
+      ],
+      "id": "548cd758-5940-4b2d-a7fb-c415b23e19e1",
+      "name": "HTTP Request – Al Jazeera"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let xml = $json.data || $json.body || \"\";\n\n// إذا كانت البيانات object، حولها لـ string\nif (typeof xml === \"object\") {\n  xml = JSON.stringify(xml);\n}\n\nconst cleaned = xml\n  .replace(/&(?![a-zA-Z0-9#]+;)/g, \"&amp;\") // إصلاح & غير المشفرة\n  .replace(/<!\\[CDATA\\[[\\s\\S]*?\\]\\]>/g, match =>\n    match.replace(/<!\\[CDATA\\[|\\]\\]>/g, \"\")\n  )\n  .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, \"\") // حذف أحرف غير قابلة للطباعة\n  .replace(/\\s+/g, \" \") // توحيد المسافات\n  .trim();\n\nreturn { json: { data: cleaned } };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        576
+      ],
+      "id": "3115ff21-9ccf-4343-b57b-0bc9d1215bc0",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        576
+      ],
+      "id": "f39b3d23-e4be-4211-a0ff-f309f8642373",
+      "name": "XML"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "rss.channel.item",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        576
+      ],
+      "id": "11095d2c-deb7-4497-b442-3ba83b129da5",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let xml = $json.data || $json.body || \"\";\n\n// إذا كانت البيانات object، حولها لـ string\nif (typeof xml === \"object\") {\n  xml = JSON.stringify(xml);\n}\n\nconst cleaned = xml\n  .replace(/&(?![a-zA-Z0-9#]+;)/g, \"&amp;\") // إصلاح & غير المشفرة\n  .replace(/<!\\[CDATA\\[[\\s\\S]*?\\]\\]>/g, match =>\n    match.replace(/<!\\[CDATA\\[|\\]\\]>/g, \"\")\n  )\n  .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, \"\") // حذف أحرف غير قابلة للطباعة\n  .replace(/\\s+/g, \" \") // توحيد المسافات\n  .trim();\n\nreturn { json: { data: cleaned } };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        768
+      ],
+      "id": "e4239c04-20e9-4be3-88f9-824c16948f19",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let xml = $json.data || $json.body || \"\";\n\n// إذا كانت البيانات object، حولها لـ string\nif (typeof xml === \"object\") {\n  xml = JSON.stringify(xml);\n}\n\nconst cleaned = xml\n  .replace(/&(?![a-zA-Z0-9#]+;)/g, \"&amp;\") // إصلاح & غير المشفرة\n  .replace(/<!\\[CDATA\\[[\\s\\S]*?\\]\\]>/g, match =>\n    match.replace(/<!\\[CDATA\\[|\\]\\]>/g, \"\")\n  )\n  .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, \"\") // حذف أحرف غير قابلة للطباعة\n  .replace(/\\s+/g, \" \") // توحيد المسافات\n  .trim();\n\nreturn { json: { data: cleaned } };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        960
+      ],
+      "id": "9a092167-b845-4d8b-8808-9f46a6129f53",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "let xml = $json.data || $json.body || \"\";\n\n// إذا كانت البيانات object، حولها لـ string\nif (typeof xml === \"object\") {\n  xml = JSON.stringify(xml);\n}\n\nconst cleaned = xml\n  .replace(/&(?![a-zA-Z0-9#]+;)/g, \"&amp;\") // إصلاح & غير المشفرة\n  .replace(/<!\\[CDATA\\[[\\s\\S]*?\\]\\]>/g, match =>\n    match.replace(/<!\\[CDATA\\[|\\]\\]>/g, \"\")\n  )\n  .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, \"\") // حذف أحرف غير قابلة للطباعة\n  .replace(/\\s+/g, \" \") // توحيد المسافات\n  .trim();\n\nreturn { json: { data: cleaned } };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1008,
+        1152
+      ],
+      "id": "11c08ee6-4d96-4676-acd9-21bf3a3cb4f1",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        768
+      ],
+      "id": "4276fa3b-f5a3-44b7-8283-8b34560dacb7",
+      "name": "XML1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        960
+      ],
+      "id": "752a3408-3e69-4ae5-a3df-e28cc7ccea3f",
+      "name": "XML2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        1152
+      ],
+      "id": "a13cdf71-7a94-49a6-99ac-7c9bbb7dcf1f",
+      "name": "XML3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "rss.channel.item",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        768
+      ],
+      "id": "e73f040e-faf6-4407-96e3-175ba758cc42",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "rss.channel.item",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        1152
+      ],
+      "id": "2eeda091-691c-48fc-ae4f-0cb219b84c81",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "rss.channel.item",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        960
+      ],
+      "id": "42b09950-432c-4e97-b797-aa7754e4a893",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1760,
+        816
+      ],
+      "id": "15e4237d-7951-43aa-86c5-1658f8bbbd8b",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * Filter merged RSS news items by keywords:\n * - Palestine\n * - Israeli occupation\n * - Breaking news\n *\n * Compatible with RSS schema containing keys like:\n * description, dc:date, media:content[2], media:credit, etc.\n */\n\nconst keywords = [\n  \"palestine\",\n  \"gaza\",\n  \"west bank\",\n  \"israeli occupation\",\n  \"jerusalem\",\n  \"idf\",\n  \"breaking news\"\n];\n\n// جلب جميع العناصر من النود السابقة\nconst inputItems = $input.all();\n\n// دالة مساعدة لتنظيف النصوص\nfunction normalize(text) {\n  if (!text) return \"\";\n  return text.toString().replace(/<[^>]+>/g, \" \").toLowerCase().trim();\n}\n\n// فلترة العناصر بناء على وجود الكلمات المفتاحية في العنوان أو الوصف\nconst filtered = inputItems.filter(item => {\n  const data = item.json;\n\n  // استخراج النصوص من الحقول الممكنة\n  const title = normalize(data.title || data[\"dc:title\"] || \"\");\n  const desc = normalize(data.description || \"\");\n  const content = normalize(data[\"media:credit\"] || \"\");\n\n  // نجمع النصوص معًا للبحث عنها\n  const combined = `${title} ${desc} ${content}`;\n\n  // تحقق من وجود أي كلمة مفتاحية\n  return keywords.some(k => combined.includes(k.toLowerCase()));\n});\n\n// إرجاع العناصر بنفس التنسيق المطلوب من n8n\nreturn filtered.map(item => ({ json: item.json }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        848
+      ],
+      "id": "09a48158-6315-4283-81e5-90742fece6b8",
+      "name": "Filter English News"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Translate the following English news item into Arabic in a clear, professional journalistic tone. \nKeep all details accurate and do not add commentary.\n\nReturn the result in JSON format with the following fields:\n- title_ar: translated Arabic title\n- description_ar: translated Arabic description\n- source_link: same as link\n- date: same as pubDate\nTitle: {{$json.title}}\nDescription: {{$json.description}}\nLink:{{ $json.link }}\ndate:{{ $json.pubDate }}\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        2432,
+        848
+      ],
+      "id": "03dd54a6-d4f5-4f1b-9d20-803a17d99d31",
+      "name": "Basic LLM Chain1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        1072
+      ],
+      "id": "fe625b1d-623e-4133-b37a-7449dcd5ada4",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Gxc1tnR6AiesBgo9",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title_ar\": \"عنوان مترجم إلى العربية\",\n  \"description_ar\": \"الوصف مترجم إلى العربية\",\n  \"source_link\": \"https://www.aljazeera.com/news/example\",\n  \"date\": \"Mon, 10 Nov 2025 06:02:40 +0000\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2576,
+        1056
+      ],
+      "id": "bd99f08d-6fa3-4493-8c2c-b0c122573522",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "maxItems": 5
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        2192,
+        848
+      ],
+      "id": "b574ba59-3b7c-41c6-9533-918f5e88d98d",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2784,
+        848
+      ],
+      "id": "2271cbc9-f36c-4412-89ab-4de7633f25f4",
+      "name": "Respond to Webhook2"
     }
   ],
   "pinData": {},
@@ -387,13 +733,286 @@
           }
         ]
       ]
+    },
+    "Webhook - English News": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request – Al Jazeera",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request – Washington Post",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request – The Guardian",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request – BBC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request – The Guardian": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request – Washington Post": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request – Al Jazeera": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request – BBC": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "XML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "XML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "XML2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "XML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML1": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML2": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML3": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Filter English News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter English News": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook2": {
+      "main": [
+        []
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "52326ad9-f03d-4945-82f6-ed442ce50486",
+  "versionId": "49b092f1-e80e-44ce-a1ba-06c31adc9512",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "7ceef62e13a8eff2bef9b52f3b5aa9e2eccada3fa24ee303bf4662554419291e"

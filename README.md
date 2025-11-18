@@ -51,9 +51,9 @@ This work is part of the **Smart Media Center initiative at An-Najah National Un
 ```bash
 📦 project/
 ┣ 📜 editor_app.py        # Main Streamlit app
- ┣ 📜 n8n-workflow.json    # Exported n8n workflow
- ┣ 📜 requirements.txt     # Python dependencies for Streamlit + n8n
-
+┣ 📜 n8n-workflow.json    # Exported n8n workflow
+┣ 📜 requirements.txt     # Python dependencies for Streamlit + n8n
+```
  ### 👤 Author
  Developed by Mohammad Sayeh as part of the OppoTrain program, contributing to the Smart Media Center at An-Najah National University.
 

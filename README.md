@@ -25,7 +25,15 @@ The project is part of the university’s digital transformation and institution
 - **RSS Feeds** – Fetching and parsing news content  
 
 ---
+## 🖼️ n8n Workflow Screenshot
 
+<img width="1036" height="568" alt="image" src="https://github.com/user-attachments/assets/3f9289cc-a636-4c72-8ced-fcdbc3bf16f7" />
+
+
+## Demo video 
+https://drive.google.com/file/d/1ZfjFrmoB9SAgYNhvaCxUvvagFdN34Jr9/view?usp=sharing
+
+---
 ## 🎓 Training & Certification
 
 - Completed the **OppoTrain training program**, focusing on automation and AI-driven media workflows.  
